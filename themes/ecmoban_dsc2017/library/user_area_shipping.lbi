@@ -1,0 +1,5 @@
+<!--{if $shippingFee.is_shipping eq 1}-->
+<span class="gary">[ 快递：{$shippingFee.shipping_fee_formated} ]</span>
+<!--{/if}-->
+
+<input name="is_shipping" id="is_shipping" type="hidden" value="{$shippingFee.is_shipping|default:0}">

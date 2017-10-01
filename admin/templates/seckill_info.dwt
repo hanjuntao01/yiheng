@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title"><a href="{$action_link.href}" class="s-back">{$lang.back}</a>促销 - {$ur_here}</div>
+        <div class="content">
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+                <ul>
+                	<li>标识“<em>*</em>”的选项为必填项，其余为选填项。</li>
+                    <li>秒杀活动仅需设置结束时间，截止时间内多个活动可同时进行。建议标题以分类区分便于管理。</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+                <div class="common-content">
+                    <div class="mian-info">
+						<form action="seckill.php?act={$form_act}" id="myForm" method="post" name="theForm" enctype="multipart/form-data">
+                            <div class="switch_info">
+                                 <div class="items">
+                                    <div class="item">
+                                        <div class="label">{$lang.require_field}{$lang.acti_title}：</div>
+                                        <div class="label_value">
+                                        	<input type="text" name="acti_title" id="acti_title" class="text" value="{$sec.acti_title}" autocomplete="off" />
+											<div class="notic"></div>
+                                            <div class="form_prompt"></div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="label">{$lang.begin_time}：</div>
+                                        <div class="label_value">
+										  <div class="text_time" id="text_time1">
+											  <input type="text" name="begin_time" value="{$sec.begin_time}" id="begin_time" class="text mr0" autocomplete="off" readonly />
+										  </div>
+											<div class="form_prompt"></div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="label">{$lang.end_time}：</div>
+                                        <div class="label_value">
+										  <div class="text_time" id="text_time2">
+											  <input type="text" name="acti_time" value="{$sec.acti_time}" id="acti_time" class="text mr0" autocomplete="off" readonly />
+                                              &nbsp;{$lang.seckill_note}
+										  </div>
+											<div class="form_prompt"></div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="label">{$lang.is_putaway}：</div>
+                                        <div class="label_value">
+											<div class="checkbox_items">
+												<div class="checkbox_item"> 
+													<input name="is_putaway" type="radio" class="ui-radio" value="0" id="is_putaway_0"{if $sec.is_putaway eq 0}checked="checked"{/if} />
+													<label for="is_putaway_0" class="ui-radio-label">下架</label>
+												</div>
+												<div class="checkbox_item"> 
+													<input name="is_putaway" type="radio" class="ui-radio" value="1" id="is_putaway_1" {if $sec.is_putaway || $sec.is_putaway eq ''}checked="checked"{/if} />
+													<label for="is_putaway_1" class="ui-radio-label">上线</label>
+												</div>
+											</div>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <div class="label">&nbsp;</div>
+                                        <div class="label_value info_btn">
+											<input type="submit" value="{$lang.button_submit}" class="button" id="submitBtn" />
+											<!--<input type="reset" value="{$lang.button_reset}" class="button button_reset" />-->
+											<input type="hidden" name="act" value="{$form_act}" />
+											<input type="hidden" name="sec_id" value="{$sec.sec_id}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+ {include file ='library/pagefooter.lbi'}
+{literal}	
+<script type="text/javascript">
+	$(function(){
+		//表单验证
+		$("#submitBtn").click(function(){
+			if($("#myForm").valid()){
+				$("#myForm").submit();
+			}
+		});
+	
+		$('#myForm').validate({
+			errorPlacement:function(error, element){
+				var error_div = element.parents('div.label_value').find('div.form_prompt');
+				element.parents('div.label_value').find(".notic").hide();
+				error_div.append(error);
+			},
+			rules:{
+				acti_title :{
+					required : true
+				},
+				acti_time :{
+					required : true
+				}
+			},
+			messages:{
+				acti_title:{
+					 required : '<i class="icon icon-exclamation-sign"></i>秒杀活动标题不能为空'
+				},
+				acti_time:{
+					 required : '<i class="icon icon-exclamation-sign"></i>秒杀活动时间不能为空'
+				}
+			}			
+		});
+	});
+
+	//时间选择
+	var opts1 = {
+		'targetId':'begin_time',
+		'triggerId':['begin_time'],
+		'alignId':'text_time1',
+		'hms':'off',
+		'format':'-'
+	}
+	var opts2 = {
+		'targetId':'acti_time',
+		'triggerId':['acti_time'],
+		'alignId':'text_time2',
+		'hms':'off',
+		'format':'-'
+	}
+	xvDate(opts1);
+	xvDate(opts2);
+</script>
+{/literal}	
+</body>
+</html>

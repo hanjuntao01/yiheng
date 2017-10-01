@@ -1,0 +1,6 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<span class="txt">{$lang.flow_info_lbi}：</span>
+<span class="price sumPrice" id="cart_goods_amount" ectype="goods_total">{$goods_price}</span>
+<span class="txt" id="rate_desc" {if $cart_total_rate eq 0}style="display:none;"{/if}>税费：</span>
+<span class="price sumPrice"><em id="cart_total_rate" {if $cart_total_rate eq 0}style="display:none;"{/if}>{$subtotal_rate}</em></span>

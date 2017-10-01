@@ -1,0 +1,24 @@
+{
+  "name": "dscmall-im",
+  "version": "1.0.0",
+  "description": "大商创客服系统",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [
+    "大商创",
+    "客服系统"
+  ],
+  "author": "carson",
+  "license": "GPL",
+  "build": {
+    "appId": "com.ecmoban.dscmall.kefu"
+  },
+  "devDependencies": {
+    "electron": "~1.6.2",
+    "electron-builder": "^19.27.7"
+  }
+}

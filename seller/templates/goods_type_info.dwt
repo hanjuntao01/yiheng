@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>{include file ='library/seller_html_head.lbi'}</head>
+
+<body>
+{include file ='library/seller_header.lbi'}
+<div class="ecsc-layout">
+    <div class="site wrapper">
+        {include file ='library/seller_menu_left.lbi'}
+        <div class="ecsc-layout-right">
+            <div class="main-content" id="mainContent">
+                {include file ='library/url_here.lbi'}
+				{include file ='library/seller_menu_tab.lbi'}
+                <div class="ecsc-form-goods">
+                    <form action="" method="post" name="theForm" id="goods_type_form">
+                    <div class="wrapper-list border1">
+                    	<dl>
+                        	<dt>{$lang.require_field}&nbsp;{$lang.goods_type_name}：</dt>
+                        	<dd>
+								<input type="text" name="cat_name" value="{$goods_type.cat_name|escape}" size="40" class="text" />
+								<div class="form_prompt"></div>
+							</dd>
+                        </dl>
+                        <dl>
+                        	<dt>{$lang.the_cat}：</dt>
+                        	<dd>
+                                       <div ectype="type_cat">
+                                        <div id="parent_id1" class="imitate_select select_w145">
+                                            <div class="cite">{$lang.top_level}</div>
+                                            <ul>
+                                                <li><a href="javascript:;" data-value="0" data-level='1' class="ftx-01">{$lang.top_level}</a></li>
+                                                {foreach from=$cat_level item=cat}
+                                                <li><a href="javascript:;" data-value="{$cat.cat_id}" data-level="{$cat.level}" class="ftx-01">{$cat.cat_name}</a></li>
+                                                {/foreach}
+                                            </ul>
+                                            <input type="hidden" value="{$cat_tree1.checked_id|default:0}" id="parent_id_val1">
+                                        </div>
+                                         {if $cat_tree1.arr}
+                                        <div id="parent_id2" class="imitate_select select_w145">
+                                            <div class="cite">请选择</div>
+                                            <ul>
+                                                <li><a href="javascript:;" data-value="0" data-level='2' class="ftx-01">请选择</a></li>
+                                                {foreach from=$cat_tree1.arr item=cat}
+                                                <li><a href="javascript:;" data-value="{$cat.cat_id}" data-level="{$cat.level}" class="ftx-01">{$cat.cat_name}</a></li>
+                                                {/foreach}
+                                            </ul>
+                                            <input type="hidden" value="{$cat_tree.checked_id|default:0}" id="parent_id_val2">
+                                        </div>
+                                        {/if}
+                                         {if $cat_tree.arr}
+                                        <div id="parent_id{if $cat_tree1.arr}3{else}2{/if}" class="imitate_select select_w145">
+                                            <div class="cite">请选择</div>
+                                            <ul>
+                                                <li><a href="javascript:;" data-value="0" data-level='{if $cat_tree1.arr}3{else}2{/if}' class="ftx-01">请选择</a></li>
+                                                {foreach from=$cat_tree.arr item=cat}
+                                                <li><a href="javascript:;" data-value="{$cat.cat_id}" data-level="{$cat.level}" class="ftx-01">{$cat.cat_name}</a></li>
+                                                {/foreach}
+                                            </ul>
+                                            <input type="hidden" value="{$goods_type.c_id|default:0}" id="parent_id_val{if $cat_tree1.arr}3{else}2{/if}">
+                                        </div>
+                                        {/if}
+                                        <input name="parent_id" type="hidden" value="{$goods_type.c_id|default:0}">
+                                    </div>
+                                </dd>
+                        </dl>
+                        <dl style="display:none">
+                        	<dt>{$lang.goods_type_status}:</dt>
+                        	<dd>{html_radios name="enabled" options=$lang.arr_goods_status checked=$goods_type.enabled}</dd>
+                        </dl>
+                        <dl>
+                        	<dt>{$lang.attr_groups}：</dt>
+                        	<dd>
+                            	<textarea name="attr_group" rows="5" cols="40" class="textarea">{$goods_type.attr_group|escape}</textarea>
+                            	<div class="notic" id="noticeAttrGroups">{$lang.notice_attr_groups}</div>
+                            </dd>
+                        </dl>
+                        <dl class="button_info">
+                        	<dt>&nbsp;</dt>
+                        	<dd>
+                            	<input type="submit" value="{$lang.button_submit}" class="sc-btn sc-blueBg-btn btn35" id="submitBtn" />
+                                <input type="reset" value="{$lang.button_reset}" class="sc-btn btn35 sc-blue-btn" />
+                                <input type="hidden" name="cat_id" value="{$goods_type.cat_id}" />
+                                <input type="hidden" name="act" value="{$form_act}" />
+                            </dd>
+                        </dl>
+                    </div>  
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file ='library/seller_footer.lbi'}
+<script type="text/javascript">
+<!--
+{literal}
+ $.divselect("#parent_id1","#parent_id_val1",function(obj){
+            
+            get_childcat(obj,1);
+        });
+        $.divselect("#parent_id3","#parent_id_val3",function(obj){
+            var val = obj.attr("data-value");
+            $("input[name='parent_id']").val(val);
+        });
+        $.divselect("#parent_id2","#parent_id_val2",function(obj){
+             get_childcat(obj,1);
+        });
+$(function(){
+	//表单验证
+	$("#submitBtn").click(function(){
+		if($("#goods_type_form").valid()){
+			$("#goods_type_form").submit();
+		}
+	});
+
+	$('#goods_type_form').validate({
+		errorPlacement:function(error, element){
+			var error_div = element.parents('dl').find('div.form_prompt');
+			//element.parents('dl').find(".notic").hide();
+			error_div.append(error);
+		},
+		rules:{
+			cat_name:{
+				required : true
+			}
+		},
+		messages:{
+			cat_name:{
+				required : '<i class="icon icon-exclamation-sign"></i>'+type_name_empty
+			}
+		}			
+	});
+});	
+
+/**
+ * 搜索商品
+ */
+function searchGoods()
+{
+  var filter = new Object;
+  filter.cat_id   = document.forms['searchForm'].elements['cat_id'].value;
+  filter.brand_id = document.forms['searchForm'].elements['brand_id'].value;
+  filter.keyword  = document.forms['searchForm'].elements['keyword'].value;
+  filter.ru_id = document.forms['searchForm'].elements['ru_id'].value;
+
+  Ajax.call('group_buy.php?is_ajax=1&act=search_goods', filter, searchGoodsResponse, 'GET', 'JSON');
+}
+
+function searchGoodsResponse(result)
+{
+  if (result.error == '1' && result.message != '')
+  {
+    alert(result.message);
+    return;
+  }
+
+  var sel = document.forms['theForm'].elements['goods_id'];
+
+  sel.length = 0;
+
+  /* 创建 options */
+  var goods = result.content;
+  if (goods)
+  {
+    for (i = 0; i < goods.length; i++)
+    {
+      var opt = document.createElement("OPTION");
+      opt.value = goods[i].goods_id;
+      opt.text  = goods[i].goods_name;
+      sel.options.add(opt);
+    }
+  }
+  else
+  {
+    var opt = document.createElement("OPTION");
+    opt.value = 0;
+    opt.text  = search_is_null;
+    sel.options.add(opt);
+  }
+
+  return;
+}
+/**
+ * 新增一个价格阶梯
+ */
+function addLadder(obj, amount, price)
+{
+    var obj = $(obj);
+    var tbl = obj.parents('#tbody-volume');
+    
+    var input = tbl.find('p:first').clone();
+    input.addClass("mt10");
+    input.find('.button').remove();
+    input.append("<a href='javascript:;' class='removeV' onclick='removeLadder(this)'><img src='images/no.gif' title='删除'></a>")
+    input.find(":input").each(function(i){
+        $(this).val('');
+    });
+    tbl.append(input);
+}
+
+/**
+ * 删除一个价格阶梯
+ */
+function removeLadder(obj)
+{
+    var obj = $(obj);
+    obj.parent('p').remove();
+}
+
+//日期选择插件调用start sunle
+var opts1 = {
+    'targetId':'start_time',//时间写入对象的id
+    'triggerId':['selbtn1'],//触发事件的对象id
+    'alignId':'text_time1',//日历对齐对象
+    'format':'-'//时间格式 默认'YYYY-MM-DD HH:MM:SS'
+},opts2 = {
+    'targetId':'end_time',
+    'triggerId':['selbtn2'],
+    'alignId':'text_time2',
+    'format':'-'
+}
+
+xvDate(opts1);
+xvDate(opts2);
+//日期选择插件调用end sunle
+//-->
+{/literal}
+    
+       
+</script>
+</body>
+</html>

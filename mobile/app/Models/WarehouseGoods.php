@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * Class WarehouseGoods
+ */
+class WarehouseGoods extends Model
+{
+    protected $table = 'warehouse_goods';
+
+    protected $primaryKey = 'w_id';
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'user_id',
+        'goods_id',
+        'region_id',
+        'region_sn',
+        'region_number',
+        'warehouse_price',
+        'warehouse_promote_price',
+        'add_time',
+        'last_update',
+        'give_integral',
+        'rank_integral',
+        'pay_integral'
+    ];
+
+    protected $guarded = [];
+}

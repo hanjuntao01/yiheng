@@ -1,0 +1,93 @@
+{if $full_page}
+<!doctype html>
+<html>
+<head>{include file ='library/admin_html_head.lbi'}</head>
+
+<body class="iframe_body">
+	<div class="warpper">
+    	<div class="title">商品 - {$ur_here}</div>
+        <div class="content">
+        	<div class="tabs_info">
+            	<ul>
+                    <li class="curr"><a href="country.php?act=list">国家列表</a></li>
+                </ul>
+            </div>			
+        	<div class="explanation" id="explanation">
+            	<div class="ex_tit"><i class="sc_icon"></i><h4>操作提示</h4><span id="explanationZoom" title="收起提示"></span></div>
+                <ul>
+                	<li>可从管理平台手动添加一个国家，并上传国旗图片。</li>
+                    <li>标识“<em>*</em>”的选项为必填项，其余为选填项。</li>
+                    <li>新增国家后可从国家列表中找到该条数据，并再次进行编辑操作。</li>
+                </ul>
+            </div>
+            <div class="flexilist">
+            	<!--商品列表-->
+                <div class="common-head">
+                    <div class="fl">
+                    	<a href="country.php?act=add"><div class="fbutton"><div class="add" title="添加国家"><span><i class="icon icon-plus"></i>添加国家</span></div></div></a>
+                    </div>				
+                    <div class="refresh">
+                    	<div class="refresh_tit" title="刷新数据"><i class="icon icon-refresh"></i></div>
+                    	<div class="refresh_span">刷新 - 共{$record_count}条记录</div>
+                    </div>
+                </div>
+                <div class="common-content">
+                	<div class="list-div" id="listDiv">
+						{/if}
+                          <table cellpadding="1" cellspacing="1">
+                            <tr>
+                              <th width="5%">
+                                <a href="javascript:listTable.sort('brand_id'); ">{$lang.record_id}</a>
+                                <div class="img">{$sort_brand_id}</div>
+                              </th>
+                              <th width="60%">国名</th>
+                              <th width="10%">国棋</th>
+                              <th width="25%">{$lang.handler}</th>
+                            </tr>
+                            {foreach from=$country_list item=country}
+                            <tr>
+                              <td align="center">{$country.id}</td>
+                              <td class="first-cell">
+                                <span>{$country.c_name|escape:html}</span>
+                              </td>
+                              <td><span>{$country.c_img}</span></td>
+                              <td align="center">
+                                <a href="country.php?act=edit&id={$country.id}"  title="{$lang.edit}" class="blue">{$lang.edit}</a>&nbsp; &nbsp; |&nbsp; &nbsp; 
+                                <a href="javascript:;" onclick="listTable.remove({$country.id}, '{$lang.drop_confirm}')" title="移除" class="blue">{$lang.remove}</a> 
+                              </td>
+                            </tr>
+                            {foreachelse}
+                            <tr><td class="no-records" colspan="9">{$lang.no_records}</td></tr>
+                            {/foreach}
+                          </table>
+                          <table class="table_page" cellpadding="1" cellspacing="1" width="100%">
+                            <tr>
+                              <td align="right" nowrap="true" colspan="9">
+                              {include file="page.htm"}
+                              </td>
+                            </tr>
+                          </table>
+						{if $full_page}
+                    </div>
+                </div>
+                <!--商品列表end-->
+            </div>
+		</div>
+	</div>
+    {include file ='library/pagefooter.lbi'}
+    <script type="text/javascript" src="js/jquery.picTip.js"></script>
+	<script type="text/javascript">
+	  listTable.recordCount = '{$record_count}';
+	  listTable.pageCount = '{$page_count}';
+
+	  {foreach from=$filter item=item key=key}
+	  listTable.filter.{$key} = '{$item}';
+	  {/foreach}
+	  
+		$(function(){
+			$('.nyroModal').nyroModal();
+		})	
+	</script>
+</body>
+</html>
+{/if}

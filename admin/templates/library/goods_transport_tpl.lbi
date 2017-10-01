@@ -1,0 +1,25 @@
+
+<style>
+.t-tab{width:80%; border:1px solid #ddd;}
+.t-tab td{padding:3px 5px; border-bottom:1px solid #ddd;}
+</style>
+<table class="t-tab">
+    <tr>
+        <td width="20%">配送方式</td>
+        <td width="40%">配送至</td>
+        <td width="20%" align="center">操作</td>
+    </tr>
+    {foreach from=$shipping_tpl item=shipping}
+    <tr data-shipping_id="{$shipping.shipping_id}">
+        <td width="20%">
+           <p><strong>快递名称：</strong><span calss="shipping_name">{$shipping.shipping_name}</span></p>
+        </td>
+        <td width="40%" class="tpl_region">
+           {$shipping.region_list}
+        </td>
+        <td width="30%" align="center">
+            <input type="button" value="编辑" class="button mt10 mb10 mr10" data-role="edit_shipping"><input type="button" value="删除" class="button ml" data-role="drop_shipping">
+        </td>
+    </tr>
+    {/foreach}
+</table>

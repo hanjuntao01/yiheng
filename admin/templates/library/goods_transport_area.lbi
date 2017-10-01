@@ -1,0 +1,34 @@
+{if $transport_area}
+<style>
+.t-tab{width:80%; border:1px solid #ddd;}
+.t-tab td{padding:3px 5px; border-bottom:1px solid #ddd;}
+</style>
+<table class="t-tab">
+	<tr>
+		<td width="50%">运送到</td>
+		<td width="20%">运费（元）</td>
+		<td width="20%" align="center">操作</td>
+	</tr>
+	{foreach from=$transport_area item=area}
+	<tr>
+		<td width="60%">
+			{if $area.area_map}
+			{foreach from=$area.area_map item=map}
+			<p><strong>{$map.top_area}：</strong>{$map.area_list}</p>
+			{/foreach}
+			{else}
+			未指定地区
+			{/if}
+		</td>
+		<td width="20%">
+			<input type="hidden" name="id" value="{$area.id}" />
+			<input type="text" name="sprice[{$area.id}]" class="text w80" autocomplete="off" value="{$area.sprice}" />
+		</td>
+		<td width="30%" align="center">
+			<input type="button" value="编辑" class="button mt10 mb10" data-role="edit_area">
+			<input type="button" value="删除" class="button ml" data-role="drop_area">
+		</td>
+	</tr>
+	{/foreach}
+</table>
+{/if}

@@ -1,0 +1,21 @@
+
+<table class="ecsc-default-table ecsc-table-seller mb10">
+	<tr>
+		<td width="20%" class="tl">配送方式</td>
+		<td width="40%" class="tc">配送至</td>
+		<td width="20%" class="tc">操作</td>
+	</tr>
+	{foreach from=$shipping_tpl item=shipping}
+	<tr data-shipping_id="{$shipping.shipping_id}">
+		<td width="30%" class="tl">
+			<p><strong>&nbsp;快递名称：</strong><span calss="shipping_name">{$shipping.shipping_name}</span></p>	
+		</td>
+		<td width="40%" class="tpl_region">
+			{$shipping.region_list}
+		</td>
+		<td width="30%" align="center">
+			<input type="button" value="编辑" class="sc-btn btn30 sc-blueBg-btn fn mr10" data-role="edit_shipping"><input type="button" value="删除" class="sc-btn btn30 sc-blueBg-btn fn mr10" data-role="drop_shipping">
+		</td>
+	</tr>
+	{/foreach}
+</table>
